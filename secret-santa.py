@@ -60,8 +60,8 @@ class Engine:
         self.players = [
             Person('Franky',    'francoisbest@gmail.com'),
             Person('Penny',     'penny.rose.buckley@gmail.com'),
-            Person('Ellie',     'elliejvj@hotmail.com'),
-            Person('Ben',       'benjamin.leger.40@gmail.com'),
+            # Person('Ellie',     'elliejvj@hotmail.com'),
+            # Person('Ben',       'benjamin.leger.40@gmail.com'),
             Person('Adrien',    'adrien59cadri@gmail.com'),
             Person('Emma',      'emma.l.armitage@gmail.com'),
             Person('Grace',     'ghollon163@gmail.com'),
@@ -72,24 +72,31 @@ class Engine:
             Person('Ryan',      'ryan.rumble@hotmail.co.uk'),
             Person('Patrick',   'patrickbriggs89@gmail.com'),
             Person('Eleanor',   'et8231@my.bristol.ac.uk'),
-            Person('Philippe',  'philippebest@yahoo.fr'),
-            Person('Myriam',    'myriam.best@yahoo.fr'),
+            # Person('Philippe',  'philippebest@yahoo.fr'),
+            # Person('Myriam',    'myriam.best@yahoo.fr'),
+            Person('Charlotte', 'charliestillwell@yahoo.com'),
+            Person('Katherine', 'katherine-moynihan@outlook.com'),
         ]
         self.couples = [
             ('Franky',      'Penny'),
             ('Adrien',      'Emma'),
-            ('Ellie',       'Ben'),
+            # ('Ellie',       'Ben'),
             ('Grace',       'Marco'),
             ('Rhiannon',    'Loic'),
-            ('Philippe',    'Myriam'),
+            # ('Philippe',    'Myriam'),
             ('Kate',        'Ryan'),
         ]
         self.unacquainted = [
-            (('Philippe', 'Myriam'), ('Marco', 'Grace', 'Ellie', 'Ben', 'Ryan', 'Franky')),
+            (('Charlotte', ), ('Marco', 'Grace', 'Loic', 'Adrien', 'Emma', 'Franky')),
         ]
 
         self.unassignedReceivers = copy.deepcopy(self.players)
         self.assignments = []
+        self.previousYearAssignments = []
+        with open('/Users/franky/Desktop/swamp/secret-santa/secret_santa_2014.txt', 'r') as f:
+            for line in f.readlines():
+                giver, sep, receiver = line.strip().split()
+                self.previousYearAssignments.append((giver, receiver))
 
     # --
 
@@ -123,6 +130,12 @@ class Engine:
                 return False
             if giver.name in unacquainted[1] and receiver.name in unacquainted[0]:
                 return False
+
+        # Exclude previous year assignments
+        for pya in self.previousYearAssignments:
+            if giver.name == pya[0] and receiver.name == pya[1]:
+                return False
+
         return True
 
     # --
@@ -163,7 +176,7 @@ Ho, Ho, Ho !
 
 Hello {giver},
 
-You have been cordially invited to Thanksmas on the 6th of December, when we shall put gifts under the tree and open them after having stuffed ourselves with good food.
+You have been cordially invited to Thanksmas on the 12th of December, when we shall put gifts under the tree and open them after having stuffed ourselves with good food.
 
 You are giving a gift to {receiver}.
 
@@ -181,7 +194,8 @@ The Secret Santa Gift Assignment Bot.
 
     def sendEmail(self, pair):
         message = self.messageTemplate.format(giver = pair.giver.name, receiver = pair.receiver.name)
-        self.internalSendEmail([pair.giver.email], message)
+        address = [pair.giver.email]
+        self.internalSendEmail(address, message)
         print('Sent email to %s' % str(pair.giver))
 
     # --
@@ -205,7 +219,7 @@ The Secret Santa Gift Assignment Bot.
 
 class FileLogger:
     def __init__(self):
-        self.path = '/Users/franky/Desktop/swamp/secret santa/secret_santa.txt'
+        self.path = '/Users/franky/Desktop/swamp/secret-santa/secret_santa_2015.txt'
 
     # --
 
@@ -251,7 +265,7 @@ def testBias():
             writer.writerow(row)
 
 def main():
-
+    # testBias()
     results = runGame()
     logger = FileLogger()
     logger.run(results)
