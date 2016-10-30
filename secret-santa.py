@@ -282,7 +282,7 @@ def main():
     logger = FileLogger()
     logger.run(results)
     notifier = EmailNotifier()
-     notifier.run(results)
+    notifier.run(results)
 
 # ------------------------------------------------------------------------------
 # Main entrypoint
