@@ -71,11 +71,17 @@ class Engine:
             Person('Kate',      'katastrphic@hotmail.com'),
             Person('Ryan',      'ryan.rumble@hotmail.co.uk'),
             Person('Patrick',   'patrickbriggs89@gmail.com'),
-            Person('Eleanor',   'et8231@my.bristol.ac.uk'),
+            # Person('Eleanor',   'et8231@my.bristol.ac.uk'),
             # Person('Philippe',  'philippebest@yahoo.fr'),
             # Person('Myriam',    'myriam.best@yahoo.fr'),
             Person('Charlotte', 'charliestillwell@yahoo.com'),
             Person('Katherine', 'katherine-moynihan@outlook.com'),
+            Person('Danielle',  'danielletaylor0910@gmail.com'),
+            Person('Jennifer',  'jennifer.channell@gmail.com'),
+            Person('Jess',      'jessicasmall23@aol.com'),
+            Person('Adam',      'adam.carter.1992@gmail.com'),
+            Person('Katie',     'katie.heidrich@gmail.com'),
+            Person('Marie',     'marie.cck@gmail.com')
         ]
         self.couples = [
             ('Franky',      'Penny'),
@@ -83,17 +89,23 @@ class Engine:
             # ('Ellie',       'Ben'),
             ('Grace',       'Marco'),
             ('Rhiannon',    'Loic'),
-            # ('Philippe',    'Myriam'),
-            ('Kate',        'Ryan'),
+            ('Jess',        'Adam'),
         ]
         self.unacquainted = [
-            (('Charlotte', ), ('Marco', 'Grace', 'Loic', 'Adrien', 'Emma', 'Franky')),
+            (('Adrien',), ('Adam', 'Jess', 'Katie', 'Marie', 'Charlotte')),
+            (('Rhiannon',), ('Adam',)),
+            (('Loic',), ('Jess', 'Adam', 'Katie', 'Marie', 'Jennifer', 'Danielle')),
+            (('Marco', 'Grace'), ('Adam', 'Jennifer', 'Danielle', 'Katie', 'Marie', 'Jess')),
+            (('Charlotte',), ('Katie', 'Danielle', 'Jennifer', 'Adam', 'Marie')),
+            (('Katherine',), ('Adam', 'Katie', 'Danielle')),
+            (('Jess',), ('Marie', 'Jennifer')),
+            (('Adam',), ('Franky', 'Penny', 'Emma', 'Kate', 'Ryan', 'Jennifer', 'Marie')),
         ]
 
         self.unassignedReceivers = copy.deepcopy(self.players)
         self.assignments = []
         self.previousYearAssignments = []
-        with open('/Users/franky/Desktop/swamp/secret-santa/secret_santa_2014.txt', 'r') as f:
+        with open('/Users/franky/Desktop/swamp/secret-santa/secret_santa_2015.txt', 'r') as f:
             for line in f.readlines():
                 giver, sep, receiver = line.strip().split()
                 self.previousYearAssignments.append((giver, receiver))
@@ -176,14 +188,14 @@ Ho, Ho, Ho !
 
 Hello {giver},
 
-You have been cordially invited to Thanksmas on the 12th of December, when we shall put gifts under the tree and open them after having stuffed ourselves with good food.
+You have been cordially invited to Thanksmas on the 3rd of December, when we shall put gifts under the tree and open them after having stuffed ourselves with good food.
 
 You are giving a gift to {receiver}.
 
-The maximum budget is 15 euros. Happy shopping !
+The recommended budget is around 15 euros. Happy shopping !
 
 Geekly yours,
-The Secret Santa Gift Assignment Bot.
+The Secret Santa Gift Assignment Fun Bot.
 """
 
     # --
@@ -219,7 +231,7 @@ The Secret Santa Gift Assignment Bot.
 
 class FileLogger:
     def __init__(self):
-        self.path = '/Users/franky/Desktop/swamp/secret-santa/secret_santa_2015.txt'
+        self.path = '/Users/franky/Desktop/swamp/secret-santa/secret_santa_2016-friends.txt'
 
     # --
 
@@ -270,7 +282,7 @@ def main():
     logger = FileLogger()
     logger.run(results)
     notifier = EmailNotifier()
-    notifier.run(results)
+     notifier.run(results)
 
 # ------------------------------------------------------------------------------
 # Main entrypoint
